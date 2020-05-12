@@ -51,8 +51,10 @@ df = pd.concat([df, categories], axis=1)
 
 
 ## Remove duplicates.
-# drop duplicates
 df = df.drop_duplicates()
+
+## Remove related entries that have values greater than 1.
+df = df.drop(df[df.related == 2].index)
 
 
 ## Save the clean dataset into an sqlite database
