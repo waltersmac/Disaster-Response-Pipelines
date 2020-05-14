@@ -59,4 +59,4 @@ df = df.drop(df[df.related == 2].index)
 
 ## Save the clean dataset into an sqlite database
 engine = create_engine('sqlite:///InsertDatabaseName.db')
-df.to_sql('InsertTableName', engine, index=False)
+df.to_sql('InsertTableName', engine, index=False, if_exists='replace')
