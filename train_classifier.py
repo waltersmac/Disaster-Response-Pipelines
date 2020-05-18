@@ -24,8 +24,8 @@ X = df.message.values
 y = df[df.columns[4:]].values
 
 
+# Create labels for the target dataset
 labels = df.columns[4:]
-
 
 
 # tokenization function to process your text data
