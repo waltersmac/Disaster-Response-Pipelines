@@ -1,7 +1,10 @@
 # local package
+pip>=20.3.3
 -e .
+sqlalchemy
 
 # external requirements
+scikit-learn>=0.23.2
 click
 Sphinx
 coverage
