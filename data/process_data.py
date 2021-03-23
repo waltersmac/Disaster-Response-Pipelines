@@ -1,4 +1,5 @@
 # import libraries
+import sys
 import os
 import pandas as pd
 from sqlalchemy import create_engine
@@ -16,22 +17,13 @@ def load_data(messages_csv, categories_csv):
     # load categories dataset
     categories = pd.read_csv(categories_csv)
 
-    return messages, categories
-
-
-def merge_df(messages, categories):
-
-    '''
-
-    '''
-
     # merge datasets
     df = messages.merge(categories, on='id')
 
     return df
 
 
-def cat_columns(df):
+def clean_data(df):
 
     '''
 
@@ -48,8 +40,8 @@ def cat_columns(df):
 
     # use this row to extract a list of new column names for categories.
     # one way is to apply a lambda function that takes everything
-                                # up to the second to last character of each string with slicing
-                                category_colnames = [x[:-2] for x in row]
+    # up to the second to last character of each string with slicing
+    category_colnames = [x[:-2] for x in row]
 
 
     # rename the columns of `categories`
@@ -73,18 +65,10 @@ def cat_columns(df):
     # concatenate the original dataframe with the new `categories` dataframe
     df = pd.concat([df, categories], axis=1)
 
-    return df
-
-
-def dup_data(df):
-
-    '''
-
-
-    '''
-
     # Binarize Categories - checking data to ensure only 1's and 0's are used
-    for col in df.iloc[:,4:].columns.to_list():
+    cat_columns = list(df.iloc[:,4:].columns)
+
+    for col in cat_columns:
         if (df[col].nunique()) > 2:
             print (col, df[col].nunique())
 
@@ -100,20 +84,49 @@ def dup_data(df):
     return df
 
 
-def process_data(messages_csv, categories_csv):
+def save_data(df, db_name):
 
-    ## Extract
-    messages, categories = load_data(messages_csv, categories_csv)
+    '''
 
-    ## Transform
-    df = merge_df(messages, categories)
-    df = cat_columns(df_merge)
-    df = dup_data(df)
+    '''
 
-    ## Load
     # Save the clean dataset into an sqlite database
-    db_path = os.path.join(os.path.abspath('../data/processed/'), 'ResponseDatabase.db')
-    db_uri = 'sqlite:///{}'.format(db_path)
+    db_uri = 'sqlite:///{}'.format(db_name)
 
     engine = create_engine(db_uri)
     df.to_sql('ResponseTable', engine, index=False, if_exists='replace')
+
+
+def main():
+
+    '''
+
+    '''
+
+    if len(sys.argv) == 4:
+
+        messages_filepath, categories_filepath, database_filepath = sys.argv[1:]
+
+        print('Loading data...\n    MESSAGES: {}\n    CATEGORIES: {}'
+              .format(messages_filepath, categories_filepath))
+        df = load_data(messages_filepath, categories_filepath)
+
+        print('Cleaning data...')
+        df = clean_data(df)
+
+        print('Saving data...\n    DATABASE: {}'.format(database_filepath))
+        save_data(df, database_filepath)
+
+        print('Cleaned data saved to database!')
+
+    else:
+        print('Please provide the filepaths of the messages and categories '\
+              'datasets as the first and second argument respectively, as '\
+              'well as the filepath of the database to save the cleaned data '\
+              'to as the third argument. \n\nExample: python process_data.py '\
+              'disaster_messages.csv disaster_categories.csv '\
+              'DisasterResponse.db')
+
+
+if __name__ == '__main__':
+    main()
