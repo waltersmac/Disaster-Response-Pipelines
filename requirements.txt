@@ -1,6 +1,5 @@
 # local package
 pip>=20.3.3
--e .
 sqlalchemy
 
 # external requirements

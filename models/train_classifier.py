@@ -70,7 +70,6 @@ def tokenize(text):
     return clean_tokens
 
 
-
 def build_model(X_train, y_train):
 
     '''
@@ -119,6 +118,26 @@ def build_model(X_train, y_train):
     best_pipeline_name = max(f1_results, key=f1_results.get)
     best_pipeline = pipeline_dict[best_pipeline_name]
 
+    return best_pipeline, f1_results
+
+
+def fit_model(model, f1_scores, X_train, y_train):
+
+    # Run RandomizedSearchCV
+    myscoring = make_scorer(f1_scores,average='weighted')
+    
+    parameters = {
+        'tfidfvect__ngram_range': ((1, 1), (1, 2)),
+        'tfidfvect__max_df': (0.5, 0.75, 1.0),
+        'tfidfvect__max_features': (None, 100, 500, 2000)
+    }
+
+    search = RandomizedSearchCV(model, parameters, scoring=myscoring, verbose = 1)
+
+    search.fit(X_train, y_train)
+
+    best_model_tuned = search.best_estimator_
+
 
     return best_model_tuned
 
@@ -128,25 +147,12 @@ def evaluate_model(model, X_test, y_test, category_names):
     '''
 
     '''
-    myscoring = make_scorer(f1_scores,average='weighted')
 
-    parameters = {
-        'tfidfvect__ngram_range': ((1, 1), (1, 2)),
-        'tfidfvect__max_df': (0.5, 0.75, 1.0),
-        'tfidfvect__max_features': (None, 100, 500, 2000)
-    }
-
-    # create grid search object
-    search = RandomizedSearchCV(best_pipeline, parameters, scoring=myscoring, verbose = 2)
-    best_model_tuned = search.best_estimator_
-
-    y_pred = search.predict(X_test)
+    y_pred = model.predict(X_test)
 
     class_report = classification_report(y_test, y_pred, target_names = category_names)
 
     print(class_report)
-
-    return best_model_tuned
 
 
 
@@ -168,10 +174,10 @@ def main():
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
         print('Building model...')
-        model = build_model(X_train, y_train)
+        model, scores = build_model(X_train, y_train)
 
         print('Training model...')
-        model.fit(X_train, y_train)
+        model = fit_model(model, scores, X_train, y_train)
 
         print('Evaluating model...')
         evaluate_model(model, X_test, y_test, category_names)
