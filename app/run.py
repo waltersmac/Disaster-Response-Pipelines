@@ -7,7 +7,7 @@ from nltk.tokenize import word_tokenize
 
 from flask import Flask
 from flask import render_template, request, jsonify
-from plotly.graph_objs import Bar
+from plotly.graph_objs import Bar, Pie
 import joblib
 from sqlalchemy import create_engine
 
@@ -32,7 +32,6 @@ df = pd.read_sql_table('ResponseTable', engine)
 # load model
 model = joblib.load("../models/classifier.pkl")
 
-
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
 @app.route('/index')
@@ -40,27 +39,61 @@ def index():
 
     # extract data needed for visuals
     # TODO: Below is an example - modify to extract data for your own visuals
-    genre_counts = df.groupby('genre').count()['message']
+    genre_counts = df.groupby('genre').count()['message'].sort_values()
     genre_names = list(genre_counts.index)
+
+    col = df.columns[4:].to_list()
+    categories_counts = df[col].sum().sort_values(ascending=False).head(10)
+    categories_names = list(categories_counts.index)
 
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [
         {
             'data': [
-                Bar(
-                    x=genre_names,
-                    y=genre_counts
+                Pie(
+                    labels=genre_names,
+                    values=genre_counts,
+                    rotation=180,
+                    marker=dict(colors=['gold', 'mediumturquoise', 'darkorange', 'lightgreen'],
+                    line=dict(color='#000000', width=2))
                 )
             ],
 
             'layout': {
-                'title': 'Distribution of Message Genres',
+                'title': 'Distribution of Message Genre',
+                'height': 450,
+                'width': 400,
+                'margin': dict(l=100,r=100,b=100,t=50,pad=10),
+                'style': {
+                    'display': 'inline-block'
+                }
+            }
+        }
+    ]
+
+    graphs += [
+        {
+            'data': [
+                Bar(
+                    x=categories_names,
+                    y=categories_counts
+                    #orientation='h'
+                )
+            ],
+
+            'layout': {
+                'title': 'The Top 10 Message Categories',
+                'height': 500,
+                'margin': dict(l=200,r=200,b=100,t=50,pad=5),
                 'yaxis': {
                     'title': "Count"
                 },
                 'xaxis': {
-                    'title': "Genre"
+                    'title': "Categories",
+                },
+                'style': {
+                    'display': 'inline-block'
                 }
             }
         }
