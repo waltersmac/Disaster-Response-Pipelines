@@ -33,9 +33,18 @@ from sklearn import set_config    # To change display
 
 def load_data(database_filepath):
 
-    '''
+    """
+    Function for loading the data files
 
-    '''
+    Parameters:
+
+    Filepath for csv file
+
+    Returns:
+
+    X, y, category_names
+
+    """
 
     # Load data
     db_uri = 'sqlite:///{}'.format(database_filepath)
@@ -55,9 +64,19 @@ def load_data(database_filepath):
 
 def tokenize(text):
 
-    '''
+    """
+    Function for process the text data
+    so that it is ready for the training
 
-    '''
+    Parameters:
+
+    Text
+
+    Returns:
+
+    Cleaned data
+
+    """
 
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
@@ -72,9 +91,19 @@ def tokenize(text):
 
 def build_model(X_train, y_train):
 
-    '''
+    """
+    Function the different pipelines
+    and evaluates each pipeline
 
-    '''
+    Parameters:
+
+    Training data
+
+    Returns:
+
+    The best performing model
+
+    """
 
     # Random Forest Classifier - pipeline
     pipeline_rf = Pipeline([
@@ -123,9 +152,24 @@ def build_model(X_train, y_train):
 
 def fit_model(model, f1_scores, X_train, y_train):
 
+    """
+    Function for the RandomizedSearchCV parameters
+    and fittinng the training data using the best
+    model
+
+    Parameters:
+
+    model, f1_scores, X_train, y_train
+
+    Returns:
+
+    fitted model
+
+    """
+
     # Run RandomizedSearchCV
     myscoring = make_scorer(f1_scores,average='weighted')
-    
+
     parameters = {
         'tfidfvect__ngram_range': ((1, 1), (1, 2)),
         'tfidfvect__max_df': (0.5, 0.75, 1.0),
@@ -144,9 +188,19 @@ def fit_model(model, f1_scores, X_train, y_train):
 
 def evaluate_model(model, X_test, y_test, category_names):
 
-    '''
+    """
+    Function evaluating the model with the test data
+    and applying the classification report
 
-    '''
+    Parameters:
+
+    model, X_test, y_test, category_names
+
+    Returns:
+
+    Print classification report
+
+    """
 
     y_pred = model.predict(X_test)
 
@@ -158,9 +212,14 @@ def evaluate_model(model, X_test, y_test, category_names):
 
 def save_model(model, model_filepath):
 
-    '''
+    """
+    Function for saving the model as a pickle file
 
-    '''
+    Parameters:
+
+    model, model_filepath
+
+    """
 
     pickle.dump(model, open(model_filepath, 'wb'))
 

@@ -7,9 +7,19 @@ from sqlalchemy import create_engine
 
 def load_data(messages_csv, categories_csv):
 
-    '''
+    """
+    Function for loading the csv files
+    and merging the data together
 
-    '''
+    Parameters:
+
+    csv file
+
+    Returns:
+
+    Merged dataframe
+
+    """
 
     # load messages dataset
     messages = pd.read_csv(messages_csv)
@@ -25,9 +35,18 @@ def load_data(messages_csv, categories_csv):
 
 def clean_data(df):
 
-    '''
+    """
+    Function for cleaning the data
 
-    '''
+    Parameters:
+
+    dataframe
+
+    Returns:
+
+    Cleaned dataframe
+
+    """
 
     # create a dataframe of the 36 individual category columns
     categories = df['categories'].str.split(';',expand=True) \
@@ -86,9 +105,14 @@ def clean_data(df):
 
 def save_data(df, db_name):
 
-    '''
+    """
+    Function saves the data to a sqlite database and table
 
-    '''
+    Parameters:
+
+    dataframe and database name
+
+    """
 
     # Save the clean dataset into an sqlite database
     db_uri = 'sqlite:///{}'.format(db_name)
@@ -98,10 +122,6 @@ def save_data(df, db_name):
 
 
 def main():
-
-    '''
-
-    '''
 
     if len(sys.argv) == 4:
 
