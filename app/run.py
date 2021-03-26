@@ -43,7 +43,7 @@ def index():
     genre_names = list(genre_counts.index)
 
     col = df.columns[4:].to_list()
-    categories_counts = df[col].sum().sort_values(ascending=False).head(10)
+    categories_counts = ((df[col].sum()).sort_values())[-10:]
     categories_names = list(categories_counts.index)
 
     # create visuals
@@ -62,12 +62,10 @@ def index():
 
             'layout': {
                 'title': 'Distribution of Message Genre',
-                'height': 450,
-                'width': 400,
-                'margin': dict(l=100,r=100,b=100,t=50,pad=10),
-                'style': {
-                    'display': 'inline-block'
-                }
+                'height': 400,
+                'width': 600,
+                'legend': dict(yanchor="top",y=0.99,xanchor="left",x=0.01),
+                'margin': dict(l=50)
             }
         }
     ]
@@ -76,25 +74,20 @@ def index():
         {
             'data': [
                 Bar(
-                    x=categories_names,
-                    y=categories_counts
-                    #orientation='h'
+                    y=categories_names,
+                    x=categories_counts,
+                    name='Count',
+                    orientation='h'
                 )
             ],
 
             'layout': {
                 'title': 'The Top 10 Message Categories',
-                'height': 500,
-                'margin': dict(l=200,r=200,b=100,t=50,pad=5),
-                'yaxis': {
-                    'title': "Count"
-                },
-                'xaxis': {
-                    'title': "Categories",
-                },
-                'style': {
-                    'display': 'inline-block'
-                }
+                'height': 400,
+                'width': 700,
+                'showlegend': True,
+                'legend': dict(yanchor="top",y=0.20,xanchor="right",x=0.99),
+                'margin': dict(l=110,r=100,pad=5)
             }
         }
     ]

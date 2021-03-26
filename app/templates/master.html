@@ -13,7 +13,16 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 </head>
-
+<style>
+#Page-header{
+    text-align:center;
+}
+.side-by-side > div{
+  width: 35%;
+  display:inline-block;
+  text-align: center;
+}
+</style>
 
 
 <body>
@@ -63,7 +72,9 @@
         </div>
     {% endblock %}
 
+
     {% for id in ids %}
+        <div class="side-by-side">
         <div id="{{id}}"></div>
     {% endfor %}
 
