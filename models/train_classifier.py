@@ -168,15 +168,14 @@ def fit_model(model, f1_scores, X_train, y_train):
     """
 
     # Run RandomizedSearchCV
-    myscoring = make_scorer(f1_scores,average='weighted')
+    myscoring = make_scorer(f1_score,average='weighted')
 
     parameters = {
-        'tfidfvect__ngram_range': ((1, 1), (1, 2)),
-        'tfidfvect__max_df': (0.5, 0.75, 1.0),
-        'tfidfvect__max_features': (None, 100, 500, 2000)
+        'tfidfvect__ngram_range': ((1, 1), (1, 2), (2, 2)),
+        'tfidfvect__max_df': (0.5, 0.75, 1.0)
     }
 
-    search = RandomizedSearchCV(model, parameters, scoring=myscoring, verbose = 1)
+    search = GridSearchCV(model, parameters, scoring=myscoring, verbose = 1)
 
     search.fit(X_train, y_train)
 
