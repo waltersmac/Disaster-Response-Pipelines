@@ -20,6 +20,8 @@ In the data directory, the 'process_data.py' file performs the data cleaning pip
   * Cleans the data
   * Stores it in a SQLite database
 
+Note - Please run "make requirements" to ensure the required modules are installed.
+
 To run ETL pipeline that cleans data and stores in database:
 `python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
 
@@ -53,7 +55,7 @@ python app/run.py
 
 ## 6. Project Organisation
 
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
+    ├── Makefile           <- Makefile with commands like `make requirements`
     ├── README.md          <- The top-level README for developers using this project.
     ├── app                <- Flask application scripts
     ├── data               <- Hold the messages and category csv files, also the process_data script
