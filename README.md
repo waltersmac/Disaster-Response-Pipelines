@@ -43,7 +43,7 @@ To run ML pipeline that trains classifier and saves:
 
 ## 4. Model Evaluation
 After researching various models I found that the best NLP pipeline and model tested was based on a Multioutput ClassifierChain classifier and a lightGBM tree algorithm. <br/>
-<kbd> <img src="figures/classification_report.png" alt="drawing"/> </kbd>
+<kbd> <img src="figures/classification_report.png" alt="drawing" style="width:550px;"/> </kbd>
 
 ## 5. Flask Web App
 I amended a web app template from Udacity in which an emergency worker can input a new message and ten get classification results in several categories. The app also outputs a visual of how the machine learning model made the latest classification of the text entered by the user. In addition to flask, the web app template that also uses html, css, javascript and Plotly visualisations.
