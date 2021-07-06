@@ -2,7 +2,8 @@
 pip>=20.3.3
 scikit-learn>=0.23.2
 lightgbm
-Flask
+flask
 sqlalchemy
 plotly
 nltk
+click<=8.0.0
