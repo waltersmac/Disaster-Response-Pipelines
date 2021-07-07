@@ -116,9 +116,3 @@ def go():
         query=query,
         classification_result=classification_results
     )
-
-def main():
-    application.run()
-
-if __name__ == "__main__":
-    main()
