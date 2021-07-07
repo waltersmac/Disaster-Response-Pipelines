@@ -12,7 +12,7 @@ import joblib
 from sqlalchemy import create_engine
 
 
-application = app = Flask(__name__)
+application = Flask(__name__)
 
 def tokenize(text):
     tokens = word_tokenize(text)
