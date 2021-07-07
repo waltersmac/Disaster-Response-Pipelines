@@ -12,7 +12,7 @@ import joblib
 from sqlalchemy import create_engine
 
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 def tokenize(text):
     tokens = word_tokenize(text)
@@ -33,8 +33,8 @@ df = pd.read_sql_table('ResponseTable', engine)
 model = joblib.load("../models/classifier.pkl")
 
 # index webpage displays cool visuals and receives user input text for model
-@app.route('/')
-@app.route('/index')
+@application.route('/')
+@application.route('/index')
 def index():
 
     # extract data needed for visuals
@@ -101,7 +101,7 @@ def index():
 
 
 # web page that handles user query and displays model results
-@app.route('/go')
+@application.route('/go')
 def go():
     # save user input in query
     query = request.args.get('query', '')
@@ -118,5 +118,5 @@ def go():
     )
 
 
-if __name__ == &#39;__main__&#39;:
-    app.run(debug=True, use_reloader=True)
+if __name__ == "__main__":
+    application.run(debug=True, use_reloader=True)
