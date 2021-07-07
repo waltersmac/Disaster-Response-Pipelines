@@ -118,9 +118,5 @@ def go():
     )
 
 
-def main():
-    app.run()
-
-
-if __name__ == '__main__':
-    main()
+if __name__ == &#39;__main__&#39;:
+    app.run(debug=True, use_reloader=True)
