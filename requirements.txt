@@ -1,4 +1,5 @@
 # Requirements
+pip
 plotly
 pandas
 nltk
