@@ -1,5 +1,8 @@
 # Requirements
+pandas
 pip>=20.3.3
+json
+joblib
 scikit-learn>=0.23.2
 lightgbm
 flask
