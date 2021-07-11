@@ -1,7 +1,9 @@
 # Requirements
-pandas
-joblib
-flask
-sqlalchemy
+json
 plotly
+pandas
 nltk
+flask
+joblib
+sqlalchemy
+flask_sqlalchemy
