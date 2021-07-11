@@ -1,9 +1,8 @@
 # Requirements
-json
 plotly
 pandas
 nltk
 flask
-#joblib
+joblib
 sqlalchemy
 flask_sqlalchemy
