@@ -12,7 +12,7 @@ import joblib
 from sqlalchemy import create_engine
 
 
-application = Flask(__name__)
+app = Flask(__name__)
 
 def tokenize(text):
     tokens = word_tokenize(text)
@@ -26,15 +26,15 @@ def tokenize(text):
     return clean_tokens
 
 # load data
-engine = create_engine('sqlite:///../data/DisasterResponse.db')
+engine = create_engine('sqlite:///data/DisasterResponse.db')
 df = pd.read_sql_table('ResponseTable', engine)
 
 # load model
-model = joblib.load("../models/classifier.pkl")
+model = joblib.load("models/classifier.pkl")
 
 # index webpage displays cool visuals and receives user input text for model
-@application.route('/')
-@application.route('/index')
+@app.route('/')
+@app.route('/index')
 def index():
 
     # extract data needed for visuals
@@ -101,7 +101,7 @@ def index():
 
 
 # web page that handles user query and displays model results
-@application.route('/go')
+@app.route('/go')
 def go():
     # save user input in query
     query = request.args.get('query', '')
@@ -116,3 +116,11 @@ def go():
         query=query,
         classification_result=classification_results
     )
+
+
+def main():
+    app.run(host='0.0.0.0', port=3001, debug=True)
+
+
+if __name__ == '__main__':
+    main()
