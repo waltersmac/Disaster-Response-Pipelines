@@ -4,6 +4,7 @@ plotly
 pandas
 nltk
 flask
+json
 joblib
 sqlalchemy
 flask_sqlalchemy
