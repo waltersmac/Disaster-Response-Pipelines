@@ -11,4 +11,4 @@ ADD . /app
 RUN pip install -r requirements.txt
 
 # Run the application:
-CMD ["python", "app/run.py"]
+CMD ["flask", "run", "--host", "0.0.0.0"]

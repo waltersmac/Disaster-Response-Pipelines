@@ -9,6 +9,7 @@ import pandas as pd
 
 import pickle
 import time
+from utils import tokenize
 
 from sqlalchemy import create_engine
 
@@ -62,34 +63,8 @@ def load_data(database_filepath):
     return X, y, category_names
 
 
-def tokenize(text):
 
-    """
-    Function for process the text data
-    so that it is ready for the training
-
-    Parameters:
-
-    Text
-
-    Returns:
-
-    Cleaned data
-
-    """
-
-    tokens = word_tokenize(text)
-    lemmatizer = WordNetLemmatizer()
-
-    clean_tokens = []
-    for tok in tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-        clean_tokens.append(clean_tok)
-
-    return clean_tokens
-
-
-def build_model(X_train, y_train):
+def build_model(X_train, y_train,tokenize):
 
     """
     Function the different pipelines
@@ -232,7 +207,7 @@ def main():
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
         print('Building model...')
-        model, scores = build_model(X_train, y_train)
+        model, scores = build_model(X_train, y_train,tokenize)
 
         print('Training model...')
         model = fit_model(model, scores, X_train, y_train)

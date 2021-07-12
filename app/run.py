@@ -1,48 +1,49 @@
+#!/usr/bin/env python3
+# import libraries
 import os
 import json
 import plotly
-import pandas as pd
-import pickle
-import dill
+import sys
+import nltk
+nltk.download(['punkt', 'wordnet'])
 
-from nltk.stem import WordNetLemmatizer
+import re
+import numpy as np
+import pandas as pd
+
+import pickle
+import time
+from utils import tokenize
+from sqlalchemy import create_engine
+
 from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+
+import warnings
+warnings.filterwarnings('ignore')
 
 from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar, Pie
 from sqlalchemy import create_engine
-from flask_sqlalchemy import SQLAlchemy
 
-
-model_file_name = "classifier.pkl"
-model_path = "models/"+model_file_name
 
 app = Flask(__name__)
 
-
-def tokenize(text):
-    tokens = word_tokenize(text)
-    lemmatizer = WordNetLemmatizer()
-
-    clean_tokens = []
-    for tok in tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-        clean_tokens.append(clean_tok)
-
-    return clean_tokens
-
-
 # load data
 print("loading messages from database ...")
-engine = create_engine('sqlite:///data/DisasterResponse.db')
-df = pd.read_sql_table('ResponseTable', engine)
+db_path = os.path.join(os.path.abspath('../data/'), 'DisasterResponse.db')
+db_uri = 'sqlite:///{}'.format(db_path)
+
+# load data from database
+engine = create_engine(db_uri)
+df = pd.read_sql_table('ResponseTable', con=engine)
 
 
 # load model
+model_path = os.path.join(os.path.abspath('../models/'), 'classifier.pkl')
 print("loading model {} ...".format(model_path))
-# load model
-model = pickle.load(open(model_path, 'rb'))
+pickle.load(open(model_path, 'rb'))
 
 
 # index webpage displays cool visuals and receives user input text for model
