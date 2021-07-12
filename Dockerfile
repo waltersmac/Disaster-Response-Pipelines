@@ -13,8 +13,5 @@ RUN pip install -r requirements.txt
 RUN python3 -m nltk.downloader punkt
 RUN python3 -m nltk.downloader wordnet
 
-# Expose port
-EXPOSE 8000
-
 # Run the application:
 CMD ["python", "app/run.py"]
