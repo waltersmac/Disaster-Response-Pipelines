@@ -8,10 +8,7 @@ ENV PATH="VIRTUAL_ENV/bin:$PATH"
 WORKDIR /app
 ADD . /app
 
-# Install dependencies
 RUN pip install -r requirements.txt
-RUN python3 -m nltk.downloader punkt
-RUN python3 -m nltk.downloader wordnet
 
 # Run the application:
 CMD ["python", "app/run.py"]

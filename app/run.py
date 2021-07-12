@@ -1,3 +1,4 @@
+import os
 import json
 import plotly
 import pandas as pd
@@ -111,7 +112,7 @@ def index():
     # render web page with plotly graphs
     return render_template('master.html', ids=ids, graphJSON=graphJSON)
 
-"""
+
 # web page that handles user query and displays model results
 @app.route('/go')
 def go():
@@ -128,7 +129,7 @@ def go():
         query=query,
         classification_result=classification_results
     )
-"""
+
 
 def main():
     port = int(os.environ.get('PORT', 5000))
