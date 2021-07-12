@@ -60,7 +60,7 @@ target/
 .env
 
 # Database
-*.db
+#*.db
 *.rdb
 
 # Pycharm
