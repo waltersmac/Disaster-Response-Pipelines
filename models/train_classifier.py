@@ -24,7 +24,7 @@ from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.multioutput import MultiOutputClassifier, ClassifierChain
 from sklearn.linear_model import RidgeClassifier
-from sklearn.metrics import confusion_matrix, classification_report, make_scorer
+from sklearn.metrics import f1_score, classification_report, make_scorer
 from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score, RandomizedSearchCV
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
 from sklearn import set_config    # To change display

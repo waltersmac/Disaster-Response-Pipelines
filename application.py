@@ -1,6 +1,8 @@
 import json
 import plotly
 import pandas as pd
+import pickle
+import dill
 
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
@@ -8,12 +10,12 @@ from nltk.tokenize import word_tokenize
 from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar, Pie
-import joblib
 from sqlalchemy import create_engine
 from flask_sqlalchemy import SQLAlchemy
 
 
-application = Flask(__name__)
+app = Flask(__name__)
+
 
 def tokenize(text):
     tokens = word_tokenize(text)
@@ -26,25 +28,31 @@ def tokenize(text):
 
     return clean_tokens
 
-# load data
-application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/DisasterResponse.db'
-application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(application)
+# load data
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/DisasterResponse.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
 
 # Select table
-db.init_app(application)
+db.init_app(app)
 conn = db.engine.connect().connection
 
 sql = "SELECT * from ResponseTable"
 df = pd.read_sql(sql, conn)
 
+
+model_path = "models/classifier.pkl"
 # load model
-model = joblib.load("models/classifier.pkl")
+print("loading model {} ...".format(model_path))
+# load model
+model = pickle.load(open(model_path, 'rb'))
+
 
 # index webpage displays cool visuals and receives user input text for model
-@application.route('/')
-@application.route('/index')
+@app.route('/')
+@app.route('/index')
 def index():
 
     # extract data needed for visuals
@@ -109,9 +117,9 @@ def index():
     # render web page with plotly graphs
     return render_template('master.html', ids=ids, graphJSON=graphJSON)
 
-
+"""
 # web page that handles user query and displays model results
-@application.route('/go')
+@app.route('/go')
 def go():
     # save user input in query
     query = request.args.get('query', '')
@@ -126,10 +134,10 @@ def go():
         query=query,
         classification_result=classification_results
     )
-
+"""
 
 def main():
-    application.run(host='0.0.0.0', port=3001, debug=True)
+    app.run(host='0.0.0.0', debug=True)
 
 
 if __name__ == '__main__':
