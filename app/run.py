@@ -14,6 +14,9 @@ from sqlalchemy import create_engine
 from flask_sqlalchemy import SQLAlchemy
 
 
+model_file_name = "classifier.pkl"
+model_path = "models/"+model_file_name
+
 app = Flask(__name__)
 
 
@@ -30,20 +33,11 @@ def tokenize(text):
 
 
 # load data
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/DisasterResponse.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
-
-# Select table
-db.init_app(app)
-conn = db.engine.connect().connection
-
-sql = "SELECT * from ResponseTable"
-df = pd.read_sql(sql, conn)
+print("loading messages from database ...")
+engine = create_engine('sqlite:///data/DisasterResponse.db')
+df = pd.read_sql_table('messages', engine)
 
 
-model_path = "models/classifier.pkl"
 # load model
 print("loading model {} ...".format(model_path))
 # load model
