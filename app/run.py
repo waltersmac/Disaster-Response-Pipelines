@@ -25,7 +25,7 @@ application = Flask(__name__)
 
 # load data
 print("loading messages from database ...")
-db_path = os.path.join(os.path.abspath('../data/'), 'DisasterResponse.db')
+db_path = os.path.realpath('data/DisasterResponse.db')
 db_uri = 'sqlite:///{}'.format(db_path)
 
 # load data from database
@@ -135,7 +135,7 @@ def go():
 
 
 def main():
-    application.run(host = '0.0.0.0', port = port)
+    application.run(host = '0.0.0.0', debug=True)
 
 
 if __name__ == '__main__':
