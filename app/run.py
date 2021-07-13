@@ -43,7 +43,7 @@ s3client = boto3.client('s3',
                         aws_secret_access_key = secret_access_key,
                        )
 
-response = s3client.get_object(Bucket='s3://myclassifier', Key='classifier.pkl')
+response = s3client.get_object(Bucket='myclassifier', Key='classifier.pkl')
 
 body = response['Body'].read()
 model = pickle.loads(body)
