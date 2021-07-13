@@ -33,7 +33,7 @@ df = pd.read_sql_table('ResponseTable', con=engine)
 # load model
 model_path = os.path.join(os.path.abspath('../models/'), 'classifier.pkl')
 print("loading model {} ...".format(model_path))
-pickle.load(open(model_path, 'rb'))
+model = pickle.load(open(model_path, 'rb'))
 
 
 # index webpage displays cool visuals and receives user input text for model
