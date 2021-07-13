@@ -34,14 +34,15 @@ df = pd.read_sql_table('ResponseTable', con=engine)
 
 
 # load model
-print("loading model {} ...".format(model_path))
+model = 'classifier.pkl'
+print("loading model {} ...".format(model))
 
 s3client = boto3.client('s3',
                         aws_access_key_id = access_key,
                         aws_secret_access_key = secret_access_key,
                        )
 
-response = s3client.get_object(Bucket='myclassifier', Key='classifier.pkl')
+response = s3client.get_object(Bucket='myclassifier', Key=model)
 
 body = response['Body'].read()
 model = pickle.loads(body)
