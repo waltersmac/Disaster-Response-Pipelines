@@ -7,6 +7,9 @@ import plotly
 import numpy as np
 import pandas as pd
 import pickle
+import boto3
+import boto3.session
+from secret import access_key, secret_access_key
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -34,6 +37,16 @@ df = pd.read_sql_table('ResponseTable', con=engine)
 model_path = os.path.join(os.path.abspath('../models/'), 'classifier.pkl')
 print("loading model {} ...".format(model_path))
 model = pickle.load(open(model_path, 'rb'))
+
+s3client = boto3.client('s3',
+                        aws_access_key_id = access_key,
+                        aws_secret_access_key = secret_access_key,
+                       )
+
+response = s3client.get_object(Bucket='s3://myclassifier', Key='classifier.pkl')
+
+body = response['Body'].read()
+model = pickle.loads(body)
 
 
 # index webpage displays cool visuals and receives user input text for model
