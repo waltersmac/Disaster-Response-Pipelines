@@ -18,19 +18,29 @@ from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar, Pie
 from sqlalchemy import create_engine
+from flask_sqlalchemy import SQLAlchemy
 from utils import tokenize
 
 
 application = Flask(__name__)
 
+
 # load data
-print("loading messages from database ...")
 db_path = os.path.realpath('data/DisasterResponse.db')
 db_uri = 'sqlite:///{}'.format(db_path)
 
-# load data from database
-engine = create_engine(db_uri)
-df = pd.read_sql_table('ResponseTable', con=engine)
+application.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(application)
+
+print("loading messages from database ...")
+# Select table
+db.init_app(application)
+conn = db.engine.connect().connection
+
+sql = "SELECT * from ResponseTable"
+df = pd.read_sql(sql, conn)
 
 
 # load model
