@@ -8,9 +8,6 @@ import numpy as np
 import pandas as pd
 import pickle
 
-from nltk.tokenize import word_tokenize
-from nltk.stem import WordNetLemmatizer
-
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -35,7 +32,7 @@ df = pd.read_sql_table('ResponseTable', con=engine)
 
 # load model
 model_path = os.path.join(os.path.abspath('../models/'), 'classifier.pkl')
-print("loading model {} ...".format(model_path))
+#print("loading model {} ...".format(model_path))
 pickle.load(open(model_path, 'rb'))
 
 
