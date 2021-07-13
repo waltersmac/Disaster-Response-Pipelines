@@ -18,7 +18,7 @@ from sqlalchemy import create_engine
 from utils import tokenize
 
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 # load data
 print("loading messages from database ...")
@@ -37,8 +37,8 @@ model = pickle.load(open(model_path, 'rb'))
 
 
 # index webpage displays cool visuals and receives user input text for model
-@app.route('/')
-@app.route('/index')
+@application.route('/')
+@application.route('/index')
 def index():
 
     # extract data needed for visuals
@@ -105,7 +105,7 @@ def index():
 
 
 # web page that handles user query and displays model results
-@app.route('/go')
+@application.route('/go')
 def go():
     # save user input in query
     query = request.args.get('query', '')
@@ -123,7 +123,7 @@ def go():
 
 
 def main():
-    app.run(host = '0.0.0.0', port = port)
+    application.run(host = '0.0.0.0', port = port)
 
 
 if __name__ == '__main__':
