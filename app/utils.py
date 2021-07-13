@@ -1,6 +1,6 @@
 # import libraries
 import nltk
-nltk.download(['punkt', 'wordnet'])
+#nltk.download(['punkt', 'wordnet'])
 
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
