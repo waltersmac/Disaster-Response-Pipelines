@@ -1,1 +1,1 @@
-web: cd app && npm run
+web: cd app
