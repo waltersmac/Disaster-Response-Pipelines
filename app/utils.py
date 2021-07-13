@@ -1,16 +1,6 @@
 # import libraries
-import sys
 import nltk
 nltk.download(['punkt', 'wordnet'])
-
-import re
-import numpy as np
-import pandas as pd
-
-import pickle
-import time
-
-from sqlalchemy import create_engine
 
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer

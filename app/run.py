@@ -1,20 +1,12 @@
 #!/usr/bin/env python3
 # import libraries
 import os
+import sys
 import json
 import plotly
-import sys
-import nltk
-nltk.download(['punkt', 'wordnet'])
-
-import re
 import numpy as np
 import pandas as pd
-
 import pickle
-import time
-from utils import tokenize
-from sqlalchemy import create_engine
 
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
@@ -26,6 +18,7 @@ from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar, Pie
 from sqlalchemy import create_engine
+from utils import tokenize
 
 
 app = Flask(__name__)
