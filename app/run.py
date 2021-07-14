@@ -24,8 +24,8 @@ from utils import tokenize
 
 application = Flask(__name__)
 
-
 # load data
+print("loading messages from database ...")
 db_path = os.path.realpath('data/DisasterResponse.db')
 db_uri = 'sqlite:///{}'.format(db_path)
 
@@ -34,29 +34,16 @@ application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(application)
 
-print("loading messages from database ...")
-# Select table
 db.init_app(application)
 conn = db.engine.connect().connection
 
 sql = "SELECT * from ResponseTable"
 df = pd.read_sql(sql, conn)
 
-"""
 # load model
-my_file = 'classifier.pkl'
-print("loading model {} ...".format(my_file))
-
-s3client = boto3.client('s3',
-                        aws_access_key_id = access_key,
-                        aws_secret_access_key = secret_access_key,
-                       )
-
-response = s3client.get_object(Bucket='myclassifier', Key=my_file)
-
-body = response['Body'].read()
-model = pickle.loads(body)
-"""
+print("loading model ...")
+model_path = os.path.realpath('models/classifier.pkl')
+model = pickle.load(open(model_path, 'rb'))
 
 # index webpage displays cool visuals and receives user input text for model
 @application.route('/')
@@ -125,7 +112,6 @@ def index():
     # render web page with plotly graphs
     return render_template('master.html', ids=ids, graphJSON=graphJSON)
 
-"""
 # web page that handles user query and displays model results
 @application.route('/go')
 def go():
@@ -142,11 +128,9 @@ def go():
         query=query,
         classification_result=classification_results
     )
-"""
 
 def main():
     application.run(host = '0.0.0.0', debug=True)
-
 
 if __name__ == '__main__':
     main()

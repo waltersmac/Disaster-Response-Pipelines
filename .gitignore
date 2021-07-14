@@ -94,3 +94,8 @@ floyd.yml
 .floyddata
 floyd_ignore
 floyd_requirements.txt
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
