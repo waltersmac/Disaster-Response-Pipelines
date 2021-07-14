@@ -42,7 +42,7 @@ conn = db.engine.connect().connection
 sql = "SELECT * from ResponseTable"
 df = pd.read_sql(sql, conn)
 
-
+"""
 # load model
 my_file = 'classifier.pkl'
 print("loading model {} ...".format(my_file))
@@ -56,7 +56,7 @@ response = s3client.get_object(Bucket='myclassifier', Key=my_file)
 
 body = response['Body'].read()
 model = pickle.loads(body)
-
+"""
 
 # index webpage displays cool visuals and receives user input text for model
 @application.route('/')
@@ -125,7 +125,7 @@ def index():
     # render web page with plotly graphs
     return render_template('master.html', ids=ids, graphJSON=graphJSON)
 
-
+"""
 # web page that handles user query and displays model results
 @application.route('/go')
 def go():
@@ -142,7 +142,7 @@ def go():
         query=query,
         classification_result=classification_results
     )
-
+"""
 
 def main():
     application.run(host = '0.0.0.0', debug=True)
