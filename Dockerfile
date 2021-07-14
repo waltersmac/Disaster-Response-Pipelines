@@ -1,4 +1,4 @@
-FROM python:3.8.8
+FROM python:3.7.6
 
 RUN pip install virtualenv
 ENV VIRTUAL_ENV=venv
@@ -14,7 +14,7 @@ RUN python3 -m nltk.downloader punkt
 RUN python3 -m nltk.downloader wordnet
 
 # Expose port
-EXPOSE 5000
+EXPOSE 80
 
 # Run the application:
 CMD ["python", "app/run.py"]
