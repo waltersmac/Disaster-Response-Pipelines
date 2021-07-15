@@ -1,1 +1,1 @@
-web: gunicorn --chdir ./app run:application
+web: gunicorn --chdir ./app application:application --bind 0.0.0.0:8080
