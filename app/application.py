@@ -130,7 +130,7 @@ def go():
     )
 
 def main():
-    application.run(host='0.0.0.0', port=8080)
+    application.run(host='0.0.0.0', port=5000)
 
 if __name__ == '__main__':
     main()

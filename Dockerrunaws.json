@@ -1,0 +1,12 @@
+{
+  "AWSEBDockerrunVersion": "3",
+  "Image": {
+    "Name": "message-classifier"
+  },
+  "Ports": [
+    {
+      "ContainerPort": 5000,
+      "HostPort": 8080
+    }
+  ]
+}
