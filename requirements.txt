@@ -21,7 +21,7 @@ decorator==5.0.9
 defusedxml==0.7.1
 dill==0.3.4
 entrypoints==0.3
-Flask==2.0.1
+Flask==2.2.5
 Flask-SQLAlchemy==2.5.1
 gitdb==4.0.7
 GitPython==3.1.30
@@ -92,7 +92,7 @@ testpath==0.5.0
 threadpoolctl==2.1.0
 toml==0.10.2
 toolz==0.11.1
-tornado==6.1
+tornado==6.3.2
 tqdm==4.61.2
 traitlets==5.0.5
 tzlocal==2.1
